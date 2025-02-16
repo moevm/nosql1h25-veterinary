@@ -1,8 +1,8 @@
 from neo4j import GraphDatabase
 
 # Подключение к базе
-URI = "bolt://localhost:7687"
-AUTH = ("neo4j", "testtest")
+URI = ""
+AUTH = ("", "")
 
 def create_and_read_example():
     with GraphDatabase.driver(URI, auth=AUTH) as driver:
