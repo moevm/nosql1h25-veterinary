@@ -47,7 +47,3 @@
    - **Response**:
      - `200 OK`: User data
      - `400 Bad Request`: Invalid ID.
-
---- 
-
-> All endpoints include error handling for invalid requests.
