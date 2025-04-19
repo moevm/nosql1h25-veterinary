@@ -1,5 +1,5 @@
 from neomodel import StringProperty, FloatProperty, BooleanProperty
-import BaseModel
+from .BaseModel import BaseModel
 
 
 class Procedure(BaseModel):

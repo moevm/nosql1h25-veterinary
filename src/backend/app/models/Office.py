@@ -1,5 +1,5 @@
 from neomodel import StringProperty
-import BaseModel
+from .BaseModel import BaseModel
 
 
 class Office(BaseModel):

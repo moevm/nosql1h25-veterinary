@@ -1,5 +1,5 @@
 from neomodel import StringProperty, DateProperty
-import BaseModel
+from .BaseModel import BaseModel
 
 
 class Pet(BaseModel):

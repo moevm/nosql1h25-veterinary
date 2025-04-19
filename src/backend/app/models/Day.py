@@ -1,5 +1,5 @@
 from neomodel import DateTimeProperty
-import BaseModel
+from .BaseModel import BaseModel
 
 
 class Day(BaseModel):

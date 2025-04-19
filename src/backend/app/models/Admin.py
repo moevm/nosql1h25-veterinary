@@ -1,5 +1,5 @@
 from .User import User
 
 
-class Client(User):
+class Admin(User):
     pass
