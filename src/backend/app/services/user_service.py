@@ -1,5 +1,5 @@
-from ..models.User import User
-from ..utils.functools import is_entity_exists
+from app.models.User import User
+from app.utils.functools import is_entity_exists
 
 
 @is_entity_exists

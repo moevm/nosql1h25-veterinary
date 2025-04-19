@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
-from ..models.User import User
-from ..services.user_service import  get_user_by_email, get_user_by_login
+from app.models.User import User
+from app.services.user_service import get_user_by_email, get_user_by_login
 
 
 

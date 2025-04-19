@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from ..services.auth_service import login_user, get_user_data, register_user
-from ..utils.functools import error_handler
+from app.services.auth_service import login_user, get_user_data, register_user
+from app.utils.functools import error_handler
 
 user_routes = Blueprint('user_routes', __name__)
 
