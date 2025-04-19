@@ -12,4 +12,5 @@ class User(BaseModel):
     email = StringProperty()
     gender = StringProperty()
     phone_number = StringProperty()
-    role = StringProperty(choices=['user', 'admin', 'client'], default='user')
+    role = StringProperty(choices=[('user', 'User'), ('admin', 'Admin'), ('client', 'Client')], default='user')
+
