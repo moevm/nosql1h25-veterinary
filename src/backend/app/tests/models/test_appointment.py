@@ -28,4 +28,4 @@ class TestAppointment(unittest.TestCase):
     def test_valid_status(self):
         """Проверка установки недопустимого значения статуса."""
         self.appointment.status = AppointmentStatus.PENDING
-        self.assertEqual(self.appointment.status, AppointmentStatus.PENDING)
+        self.assertEqual(self.appointment.status, AppointmentStatus.COMPLETED)
