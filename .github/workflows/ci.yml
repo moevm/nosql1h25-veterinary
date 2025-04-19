@@ -1,0 +1,33 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - ci_cd_test
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04  # Указываем операционную систему для работы
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Клонируем репозиторий
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Настроим Python окружение
+      with:
+        python-version: '3.9'  # Указываем нужную версию Python
+
+    - name: Install dependencies
+      run: |
+        cd src/backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt 
+
+    - name: Run tests
+      run: |
+        pytest  # Запуск тестов с помощью pytest
