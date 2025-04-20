@@ -1,7 +1,8 @@
-from neomodel import StringProperty, DateTimeProperty, ArrayProperty
+# Appointment.py
+
+from neomodel import StringProperty, DateTimeProperty, ArrayProperty, RelationshipTo, RelationshipFrom
 from enum import Enum
 from .BaseModel import BaseModel
-
 
 class AppointmentStatus(str, Enum):
     """Все доступные статусы приема"""
@@ -9,7 +10,6 @@ class AppointmentStatus(str, Enum):
     CONFIRMED = 'подтвержден'
     CANCELED = 'отменен'
     COMPLETED = 'проведен'
-
 
 class Appointment(BaseModel):
     date = DateTimeProperty()
@@ -22,6 +22,13 @@ class Appointment(BaseModel):
     diagnosis = StringProperty(max_length=300)
     recommend = StringProperty(max_length=480)
     file_urls = ArrayProperty(StringProperty(max_length=120))
+
+    # Связи
+    pet = RelationshipFrom('Pet', 'REGISTERED_ON')                # Приём назначен питомцу
+    client = RelationshipFrom('Client', 'REGISTERED_ON')          # Приём зарегистрирован клиентом
+    doctor = RelationshipFrom('Doctor', 'CONDUCTS')               # Приём проводит врач
+    procedure = RelationshipTo('Procedure', 'INCLUDES')         # В приёме участвует процедура
+    day = RelationshipTo('Day', 'IS_SCHEDULED_ON')              # Приём назначен на день
 
     @property
     def status(self):
