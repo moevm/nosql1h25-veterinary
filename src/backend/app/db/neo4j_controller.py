@@ -1,4 +1,6 @@
 from neomodel import db
+
+
 class Neo4jRepository:
     """
     Универсальный репозиторий для работы с сущностями neomodel.
@@ -63,7 +65,15 @@ class Neo4jRepository:
         params = {}
 
         for key, value in kwargs.items():
-            if key.endswith('__icontains'):
+            if key.endswith('__start'):
+                field = key[:-7]
+                cypher_where.append(f"n.{field} >= ${key}")
+                params[key] = value
+            elif key.endswith('__end'):
+                field = key[:-5]
+                cypher_where.append(f"n.{field} <= ${key}")
+                params[key] = value
+            elif key.endswith('__icontains'):
                 field = key[:-11]
                 # (?iu) — флаги: i (ignore case), u (unicode)
                 pattern = f"(?iu).*{value}.*"

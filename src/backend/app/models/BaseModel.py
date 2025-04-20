@@ -1,4 +1,4 @@
-from neomodel import StructuredNode, UniqueIdProperty
+from neomodel import StructuredNode, UniqueIdProperty, db, RelationshipFrom, RelationshipTo
 from enum import Enum
 from datetime import date, datetime
 
@@ -20,17 +20,16 @@ class BaseModel(StructuredNode):
         data = {}
 
         # Получаем свойства (то, что описано через StringProperty и т.п.)
-        for key in self.__all_properties__:
-            if isinstance(key, str):
-                value = getattr(self, key)
+        for field, prop in self.__properties__.items():
+            value = getattr(self, field)
 
-                if isinstance(value, Enum):
-                    value = value.value
-                data[key] = self.serialize_value(value)
+            # Сериализация значений
+            if isinstance(value, Enum):
+                value = value.value
+            data[field] = self.serialize_value(value)
 
         # Добавим ID (UUID в Neo4j)
         data['id'] = str(self.get_id_safety())
-
         return data
 
     def get_id_safety(self):
@@ -38,3 +37,11 @@ class BaseModel(StructuredNode):
             return self.uid
         except AttributeError:
             return None
+
+    def get_relationships(self):
+        related_objects = {}
+        for name, attr in self.__class__.__dict__.items():
+            if isinstance(attr, (RelationshipFrom, RelationshipTo)):
+                related = getattr(self, name).all()
+                related_objects[name] = [obj.to_dict() for obj in related]
+        return related_objects
