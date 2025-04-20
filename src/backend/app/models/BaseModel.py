@@ -1,11 +1,13 @@
 from neomodel import StructuredNode, UniqueIdProperty
 from enum import Enum
+from datetime import date, datetime
 
 
 class BaseModel(StructuredNode):
     """Базовый класс модели, от него наследуются все модели"""
     uid = UniqueIdProperty()
 
+    @staticmethod
     def serialize_value(value):
         if isinstance(value, Enum):
             return value.value

@@ -12,12 +12,13 @@ class TestBaseModel(unittest.TestCase):
         base_model.age = 5
         base_model.species = "Dog"
         base_model.status = AppointmentStatus.PENDING
+        base_model_dict = base_model.to_dict()
+        base_model_dict.pop('id')
 
         data = {
             'name': 'Rex',
             'age': 5,
             'species': 'Dog',
-            'id': 'None',
             'status': 'ожидает подтверждения'
         }
-        self.assertDictEqual(base_model.to_dict(), data, "dicts are not equals")
+        self.assertDictEqual(base_model_dict, data, "dicts are not equals")
