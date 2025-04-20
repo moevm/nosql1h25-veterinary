@@ -12,6 +12,6 @@ class Office(BaseModel):
     meta = StringProperty(max_length=300)
 
     # Связи
-    doctors = RelationshipFrom('Doctor', 'WORKS_IN')            # В офисе работают врачи
-    appointments = RelationshipFrom('Appointment', 'PROVIDES')  # В офисе проходят приёмы
-    procedures = RelationshipFrom('Procedure', 'PROVIDES')      # В офисе предоставляются процедуры
+    doctors = RelationshipFrom('app.models.Doctor', 'WORKS_IN')            # В офисе работают врачи
+    appointments = RelationshipFrom('app.models.Appointment', 'PROVIDES')  # В офисе проходят приёмы
+    procedures = RelationshipFrom('app.models.Procedure', 'PROVIDES')      # В офисе предоставляются процедуры

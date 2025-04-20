@@ -10,6 +10,6 @@ class Procedure(BaseModel):
     available = BooleanProperty()
 
     # Связи
-    appointments = RelationshipFrom('Appointment', 'INCLUDES')  # Входит в приём
-    pet_types = RelationshipFrom('PetType', 'PROVIDED_TO')  # Предоставляется типу питомца
-    offices = RelationshipTo('Office', 'PROVIDES')  # Проводится в офисе
+    appointments = RelationshipFrom('app.models.Appointment', 'INCLUDES')  # Входит в приём
+    pet_types = RelationshipFrom('app.models.PetType', 'PROVIDED_TO')  # Предоставляется типу питомца
+    offices = RelationshipTo('app.models.Office', 'PROVIDES')  # Проводится в офисе

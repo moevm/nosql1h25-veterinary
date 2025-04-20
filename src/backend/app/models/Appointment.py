@@ -24,11 +24,11 @@ class Appointment(BaseModel):
     file_urls = ArrayProperty(StringProperty(max_length=120))
 
     # Связи
-    pet = RelationshipFrom('Pet', 'REGISTERED_ON')                # Приём назначен питомцу
-    client = RelationshipFrom('Client', 'REGISTERED_ON')          # Приём зарегистрирован клиентом
-    doctor = RelationshipFrom('Doctor', 'CONDUCTS')               # Приём проводит врач
-    procedure = RelationshipTo('Procedure', 'INCLUDES')         # В приёме участвует процедура
-    day = RelationshipTo('Day', 'IS_SCHEDULED_ON')              # Приём назначен на день
+    pet = RelationshipFrom('app.models.Pet', 'REGISTERED_ON')                # Приём назначен питомцу
+    client = RelationshipFrom('app.models.Client', 'REGISTERED_ON')          # Приём зарегистрирован клиентом
+    doctor = RelationshipFrom('app.models.Doctor', 'CONDUCTS')               # Приём проводит врач
+    procedure = RelationshipTo('app.models.Procedure', 'INCLUDES')         # В приёме участвует процедура
+    day = RelationshipTo('app.models.Day', 'IS_SCHEDULED_ON')              # Приём назначен на день
 
     @property
     def status(self):

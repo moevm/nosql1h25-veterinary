@@ -3,6 +3,7 @@
 from neomodel import StringProperty, DateProperty, RelationshipFrom, RelationshipTo
 from .BaseModel import BaseModel
 
+
 class Pet(BaseModel):
     name = StringProperty(max_length=60)
     breed = StringProperty(max_length=60)
@@ -11,6 +12,6 @@ class Pet(BaseModel):
     photo_url = StringProperty(max_length=120)
 
     # Связи
-    owner = RelationshipFrom('Client', 'OWN')  # Питомец принадлежит клиенту
-    pet_type = RelationshipTo('PetType', 'BELONGS_TO')  # Принадлежит типу
-    appointments = RelationshipTo('Appointment', 'REGISTERED_ON')  # Записан на приём
+    owner = RelationshipFrom('app.models.Client', 'OWN')  # Питомец принадлежит клиенту
+    pet_type = RelationshipTo('app.models.PetType', 'BELONGS_TO')  # Принадлежит типу
+    appointments = RelationshipTo('app.models.Appointment', 'REGISTERED_ON')  # Записан на приём

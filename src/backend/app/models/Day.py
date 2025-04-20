@@ -7,5 +7,5 @@ class Day(BaseModel):
     date = DateTimeProperty()
 
     # Связи
-    appointments = RelationshipFrom('Appointment', 'IS_SCHEDULED_ON')  # На этот день назначены приёмы
-    doctors = RelationshipFrom('Doctor', 'AVAILABLE_AT')               # В этот день доступны врачи
+    appointments = RelationshipFrom('app.models.Appointment', 'IS_SCHEDULED_ON')  # На этот день назначены приёмы
+    doctors = RelationshipFrom('app.models.Doctor', 'AVAILABLE_AT')               # В этот день доступны врачи

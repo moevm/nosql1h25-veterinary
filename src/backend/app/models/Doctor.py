@@ -8,6 +8,6 @@ class Doctor(User):
     specialization = StringProperty(max_length=60)
 
     # Связи
-    appointments = RelationshipTo('Appointment', 'CONDUCTS')  # Врач проводит приёмы
-    offices = RelationshipTo('Office', 'WORKS_IN')              # Врач работает в офисе
-    available_days = RelationshipTo('Day', 'AVAILABLE_AT')      # Врач доступен в определённые дни/слоты
+    appointments = RelationshipTo('app.models.Appointment', 'CONDUCTS')  # Врач проводит приёмы
+    offices = RelationshipTo('app.models.Office', 'WORKS_IN')              # Врач работает в офисе
+    available_days = RelationshipTo('app.models.Day', 'AVAILABLE_AT')      # Врач доступен в определённые дни/слоты

@@ -1,9 +1,17 @@
-from neomodel import StructuredNode
+from neomodel import StructuredNode, UniqueIdProperty
 from enum import Enum
 
 
 class BaseModel(StructuredNode):
     """Базовый класс модели, от него наследуются все модели"""
+    uid = UniqueIdProperty()
+
+    def serialize_value(value):
+        if isinstance(value, Enum):
+            return value.value
+        if isinstance(value, (datetime, date)):
+            return value.isoformat()
+        return value
 
     def to_dict(self):
         """Возвращает dict с данными об объекте"""
@@ -11,11 +19,12 @@ class BaseModel(StructuredNode):
 
         # Получаем свойства (то, что описано через StringProperty и т.п.)
         for key in self.__all_properties__:
-            value = getattr(self, key)
+            if isinstance(key, str):
+                value = getattr(self, key)
 
-            if isinstance(value, Enum):
-                value = value.value
-            data[key] = value
+                if isinstance(value, Enum):
+                    value = value.value
+                data[key] = self.serialize_value(value)
 
         # Добавим ID (UUID в Neo4j)
         data['id'] = str(self.get_id_safety())
@@ -24,6 +33,6 @@ class BaseModel(StructuredNode):
 
     def get_id_safety(self):
         try:
-            return self.id
+            return self.uid
         except AttributeError:
             return None
