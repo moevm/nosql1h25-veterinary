@@ -29,4 +29,5 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest app/tests  # Запуск тестов с помощью pytest
+        cd app/tests
+        pytest # Запуск тестов с помощью pytest
