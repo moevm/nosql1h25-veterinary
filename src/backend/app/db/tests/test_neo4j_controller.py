@@ -1,8 +1,5 @@
 from neomodel import config
 
-# TODO: убрать хардкод
-config.DATABASE_URL = 'bolt://neo4j:possession-clamps-definitions@44.202.201.78:7687'
-
 import uuid
 from datetime import datetime
 
