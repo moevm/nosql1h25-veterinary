@@ -1,4 +1,5 @@
 from neomodel import db
+from datetime import datetime
 
 
 class Neo4jRepository:
@@ -14,6 +15,16 @@ class Neo4jRepository:
         Создать новую сущность.
         Пример: repo.create(name="Барсик", breed="Сибирский")
         """
+        for key, value in kwargs.items():
+            if key == "birthdate" or key == "birth_date":
+                try:
+                    kwargs[key] = datetime.strptime(value, "%Y-%m-%d").date()
+                except ValueError:
+                    # Обработка ошибки, если формат даты неверный
+                    print(f"Invalid date format for '{key}': {value}.  Expected format: YYYY-MM-DD")
+                    # Можно выбросить исключение или присвоить значение по умолчанию
+                    # raise ValueError(f"Invalid date format for '{key}': {value}")
+                    kwargs[key] = None  # Или какое-то значение по умолчанию
         instance = self.model_cls(**kwargs)
         instance.save()
         return instance

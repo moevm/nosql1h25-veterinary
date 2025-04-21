@@ -26,3 +26,14 @@ def filter_entities(entity_name: str, filters: dict):
     model_cls = ENTITY_CLASS_MAP[entity_name]
     repo = Neo4jRepository(model_cls)
     return repo.filter(**filters)
+
+def create_entity(entity_name: str, data: dict):
+    entity_name = entity_name.lower()
+    print(entity_name)
+    print(data)
+    if entity_name not in ENTITY_CLASS_MAP:
+        raise ValueError(f"Unknown entity: {entity_name}")
+
+    model_cls = ENTITY_CLASS_MAP[entity_name]
+    repo = Neo4jRepository(model_cls)
+    return repo.create(**data)
