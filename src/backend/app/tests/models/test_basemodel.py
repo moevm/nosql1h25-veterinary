@@ -13,6 +13,7 @@ class TestBaseModel(unittest.TestCase):
         base_model.species = "Dog"
         base_model.status = AppointmentStatus.PENDING
         base_model_dict = base_model.to_dict()
+        base_model_dict.pop('uid')
         base_model_dict.pop('id')
 
         data = {
