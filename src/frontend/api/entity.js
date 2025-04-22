@@ -9,3 +9,6 @@ export async function filterEntity(entityName, filters = {}) {
     })
     return response.data
 }
+export function getDoctorById() {
+
+}
