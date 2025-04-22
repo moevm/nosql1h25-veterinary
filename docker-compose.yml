@@ -1,0 +1,56 @@
+services:
+  db:
+    image: neo4j:4.4.9
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_dbms_default_advertised_address=0.0.0.0
+      - NEO4J_dbms_connector_bolt_advertised__address=0.0.0.0
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:7474"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+  backend:
+    build: 
+      context: ./src/backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=bolt://db:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=password
+    ports:
+      - "127.0.0.1:5000:5000"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+
+networks:
+  app-network:
+    driver: bridge
