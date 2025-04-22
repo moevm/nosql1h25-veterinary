@@ -5,7 +5,9 @@
     :items="items"
     :columns="columns"
     :filters="filters"
-    @add="$emit('addUser')"
+    :showAddButton="true"
+    :addFormConfig="addFormConfig"
+    @add="handleAddUser"
   />
 </template>
 
@@ -36,12 +38,31 @@ export default {
         { field: 'birth_date__start', label: 'Дата рождения (с)', type: 'date' },
         { field: 'birth_date__end', label: 'Дата рождения (по)', type: 'date' },
       ],
+      addFormConfig: {
+        login: { required: true },
+        password: { type: 'password', required: true },
+        second_name: { required: true },
+        first_name: { required: true },
+        last_name: { required: false },
+        email: { type: 'email', required: true },
+        role: { 
+          type: 'select', 
+          options: ['admin', 'doctor', 'user'],
+          required: true 
+        },
+        birth_date: { type: 'date', required: true },
+        phone_number: { required: false }
+      }
     };
   },
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString();
     },
-  },
+    handleAddUser(newUser) {
+      console.log('Добавление нового пользователя:', newUser);
+     
+    }
+  }
 };
 </script>
