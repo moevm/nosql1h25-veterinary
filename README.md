@@ -1,5 +1,16 @@
 # nosql_template
 
+Пользователи:
+- Клиент
+    "login": "client_user"
+    "password": "user123"
+- Админ
+    "login": "admin_user"
+    "password": "admin123"
+- Врач
+    "login": "doctor_user"
+    "password": "doctor123"
+
 
 ## Предварительная проверка заданий
 
