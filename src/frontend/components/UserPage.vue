@@ -6,11 +6,12 @@
 </template>
 
 <script>
-import Header from './Header.vue';
+import HeaderUser from './HeaderUser.vue';
 import UserTables from './UserTables.vue';
 
 
 export default {
-  components: { Header, UserTables }
+name: 'UserPage',
+  components: { HeaderUser, UserTables }
 }
 </script>
