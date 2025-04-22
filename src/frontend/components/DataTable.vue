@@ -2,36 +2,42 @@
   <div class="data-table">
     <div class="table-header">
       <h2>{{ title }}</h2>
-      <div class="table-controls">
-        <button v-if="allowCreate" @click="onCreate" class="btn btn-primary">
-          Добавить
-        </button>
+      <button v-if="showAddButton" @click="$emit('add')" class="add-button">
+        Добавить
+      </button>
+    </div>
+    <div class="table-filters">
+      <div v-for="(filter, index) in filters" :key="index" class="filter-item">
+        <label :for="`filter-${index}`">{{ filter.label }}</label>
         <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Поиск..."
-          class="search-input"
+          :id="`filter-${index}`"
+          :type="filter.type || 'text'"
+          v-model="filterValues[filter.field]"
+          :placeholder="filter.placeholder || ''"
         />
       </div>
     </div>
-    
     <table>
       <thead>
         <tr>
-          <th v-for="column in columns" :key="column.key">
-            {{ column.title }}
+          <th v-for="column in columns" :key="column.field">
+            {{ column.label }}
           </th>
-          <th v-if="hasActions">Действия</th>
+          <th v-if="showActions">Действия</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in filteredItems" :key="item.id">
-          <td v-for="column in columns" :key="column.key">
-            {{ item[column.key] }}
+          <td v-for="column in columns" :key="column.field">
+            {{ formatValue(item[column.field], column) }}
           </td>
-          <td v-if="hasActions" class="actions">
-            <button @click="onEdit(item)" class="btn btn-edit">✏️</button>
-            <button @click="onDelete(item)" class="btn btn-delete">🗑️</button>
+          <td v-if="showActions" class="actions">
+            <button @click="$emit('edit', item)" class="edit-button">
+              Редактировать
+            </button>
+            <button @click="$emit('delete', item)" class="delete-button">
+              Удалить
+            </button>
           </td>
         </tr>
       </tbody>
@@ -45,32 +51,39 @@ export default {
     title: String,
     items: Array,
     columns: Array,
-    allowCreate: Boolean,
-    hasActions: Boolean,
+    filters: Array,
+    showAddButton: {
+      type: Boolean,
+      default: true,
+    },
+    showActions: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
-      searchQuery: '',
+      filterValues: {},
     };
   },
   computed: {
     filteredItems() {
-      if (!this.searchQuery) return this.items;
-      return this.items.filter(item => 
-        Object.values(item).some(
-          val => String(val).toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.items.filter((item) => {
+        return Object.keys(this.filterValues).every((key) => {
+          if (!this.filterValues[key]) return true;
+          return String(item[key])
+            .toLowerCase()
+            .includes(this.filterValues[key].toLowerCase());
+        });
+      });
     },
   },
   methods: {
-    onCreate() {
-      this.$emit('create');
-    },
-    onEdit(item) {
-      this.$emit('edit', item);
-    },
-    onDelete(item) {
-      this.$emit('delete', item);
+    formatValue(value, column) {
+      if (column.formatter) {
+        return column.formatter(value);
+      }
+      return value;
     },
   },
 };
@@ -92,6 +105,29 @@ export default {
   margin-bottom: 20px;
 }
 
+.table-filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-item label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.filter-item input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -104,8 +140,12 @@ th, td {
 }
 
 th {
-  background-color: #f8f9fa;
+  background-color: #f4f4f4;
   font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
 }
 
 .actions {
@@ -113,32 +153,30 @@ th {
   gap: 8px;
 }
 
-.btn {
-  padding: 6px 12px;
+button {
+  padding: 8px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 500;
 }
 
-.btn-primary {
-  background-color: #42b983;
+.add-button {
+  background-color: #4caf50;
   color: white;
 }
 
-.btn-edit {
-  background-color: #ffc107;
+.edit-button {
+  background-color: #2196f3;
   color: white;
 }
 
-.btn-delete {
-  background-color: #dc3545;
+.delete-button {
+  background-color: #f44336;
   color: white;
 }
 
-.search-input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-left: 10px;
+button:hover {
+  opacity: 0.9;
 }
 </style>
