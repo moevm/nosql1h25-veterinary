@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header />
+      <DoctorTables />
     <div v-if="doctor">
       <p>Имя: {{ doctor.name }}</p>
       <p>Специализация: {{ doctor.specialization }}</p>
