@@ -9,6 +9,7 @@
 import Header from './Header.vue';
 import UserTables from './UserTables.vue';
 
+
 export default {
   components: { Header, UserTables }
 }
