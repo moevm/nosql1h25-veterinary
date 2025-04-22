@@ -21,6 +21,7 @@
 import DataTable from './DataTable.vue';
 import { AppointmentStatus } from '../models/AppointmentStatus';
 
+  
 export default {
   components: { DataTable },
   data() {
