@@ -9,6 +9,7 @@
 import Header from './Header.vue';
 import DoctorTables from './DoctorTables.vue';
 
+  
 export default {
   components: { Header, DoctorTables }
 }
