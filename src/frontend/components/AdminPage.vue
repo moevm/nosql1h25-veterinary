@@ -5,6 +5,7 @@
   </div>
 </template>
 
+
 <script>
 import Header from './Header.vue';
 import AdminTables from './AdminTables.vue';
