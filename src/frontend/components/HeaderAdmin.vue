@@ -2,7 +2,7 @@
   <header class="header">
     <nav class="nav">
       <button @click="$router.push('/admin/User')">Пользователи</button>
-      <button @click="$router.push('/admin/Appointment')">Отчёты</button>
+      <button @click="$router.push('/admin/Appointment')">Записи</button>
       <button @click="$router.push('/admin/Office')">Филиалы</button>
       <button @click="$router.push('/admin/Procedure')">Услуги</button>
       
