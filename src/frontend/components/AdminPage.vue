@@ -1,16 +1,15 @@
-components/AdminPage.vue
-вот так было:
 <template>
   <div>
     <Header />
-    <h1>Страница администратора</h1>
+    <AdminTables />
   </div>
 </template>
 
 <script>
 import Header from './Header.vue';
+import AdminTables from './AdminTables.vue';
 
 export default {
-  components: { Header }
+  components: { Header, AdminTables }
 }
 </script>
