@@ -8,12 +8,11 @@
 
 <script>
 import HeaderUser from './HeaderUser.vue';
-import UserTables from './UserTables.vue';
 
 export default {
   name: 'UserPage',
   components: {
-    Header: HeaderUser, UserTables: UserTables
+    Header: HeaderUser
   }
 }
 </script>
