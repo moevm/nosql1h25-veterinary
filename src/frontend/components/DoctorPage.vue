@@ -1,16 +1,15 @@
 <template>
   <div>
     <Header />
-    <h1>Страница доктора</h1>
+    <DoctorTables />
   </div>
 </template>
 
 <script>
-import Doctor from '../models/Doctor.js';
-import { getDoctorById } from '../api/entity.js';
 import Header from './Header.vue';
+import DoctorTables from './DoctorTables.vue';
 
 export default {
-  components: { Header }
+  components: { Header, DoctorTables }
 }
 </script>
