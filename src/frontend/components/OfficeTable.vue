@@ -5,7 +5,9 @@
     :items="items"
     :columns="columns"
     :filters="filters"
-    @add="$emit('addOffice')"
+    :showAddButton="true"
+    :addFormConfig="addFormConfig"
+    @add="handleAddOffice"
   />
 </template>
 
@@ -32,7 +34,21 @@ export default {
         { field: 'opening_hours', label: 'Часы работы' },
         { field: 'meta', label: 'Метаданные' },
       ],
+      addFormConfig: {
+        name: { required: true },
+        address: { required: true },
+        phone_number: { required: true },
+        email: { type: 'email', required: true },
+        opening_hours: { required: true },
+        meta: { required: false }
+      }
     };
   },
+  methods: {
+    handleAddOffice(newOffice) {
+      console.log('Добавление нового филиала:', newOffice);
+      
+    }
+  }
 };
 </script>
