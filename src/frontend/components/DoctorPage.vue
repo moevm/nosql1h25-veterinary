@@ -1,19 +1,16 @@
-<script>
-import {Doctor} from '@/models/Doctor';
-import { getDoctorById } from '@/api/entity';
-import Header from './Header.vue';
+<template>
+  <div>
+    <Header />
+    <DoctorTables />
+  </div>
+</template>
 
+<script>
+import Header from './Header.vue';
+import DoctorTables from './DoctorTables.vue';
+
+  
 export default {
-  components: { Header },
-  data() {
-    return {
-      doctor: null
-    }
-  },
-  async mounted() {
-    // Временный пример — загружаем доктора с id 1
-    const data = await getDoctorById(1)
-    this.doctor = new Doctor(data)
-  }
+  components: { Header, DoctorTables }
 }
 </script>

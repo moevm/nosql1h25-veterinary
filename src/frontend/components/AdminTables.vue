@@ -2,6 +2,7 @@
   <div class="admin-tables">
     <DataTable
       title="Пользователи"
+      system-title="user"
       :items="users"
       :columns="userColumns"
       :filters="userFilters"
@@ -13,6 +14,7 @@
     
     <DataTable
       title="Филиалы"
+      system-title="office"
       :items="offices"
       :columns="officeColumns"
       :filters="officeFilters"
@@ -20,9 +22,10 @@
       @edit="editOffice"
       @delete="deleteOffice"
     />
-    
+
     <DataTable
       title="Услуги"
+      system-title="procedure"
       :items="procedures"
       :columns="procedureColumns"
       :filters="procedureFilters"
@@ -35,6 +38,7 @@
 
 <script>
 import DataTable from './DataTable.vue';
+import {filterEntity} from "@/api/enity.js";
 
 export default {
   components: { DataTable },
@@ -55,6 +59,7 @@ export default {
         { field: 'login', label: 'Логин' },
         { field: 'second_name', label: 'Фамилия' },
         { field: 'role', label: 'Роль' },
+        { field: 'name', label: 'Имя'},
       ],
       officeColumns: [
         { field: 'name', label: 'Название' },
@@ -77,34 +82,35 @@ export default {
       ],
     };
   },
-  async created() {
-    // Загрузка данных с сервера
-    await this.loadData();
-  },
+  // async created() {
+  //   // Загрузка данных с сервера
+  //   await this.loadData();
+  // },
   methods: {
-    async loadData() {
-      // Здесь должны быть запросы к API
-      // this.users = await fetchUsers();
-      // this.offices = await fetchOffices();
-      // this.procedures = await fetchProcedures();
-      
-      // Заглушки данных для демонстрации
-      this.users = [
-        { id: 1, login: 'admin', second_name: 'Иванов', first_name: 'Иван', last_name: 'Иванович', email: 'admin@clinic.ru', role: 'Администратор' },
-        { id: 2, login: 'doctor1', second_name: 'Петров', first_name: 'Петр', last_name: 'Петрович', email: 'doctor1@clinic.ru', role: 'Врач' },
-      ];
-      
-      this.offices = [
-        { id: 1, name: 'Центральный', address: 'ул. Центральная, 1', phone_number: '+79990001111', email: 'central@clinic.ru' },
-        { id: 2, name: 'Северный', address: 'ул. Северная, 5', phone_number: '+79990002222', email: 'north@clinic.ru' },
-      ];
-      
-      this.procedures = [
-        { id: 1, name: 'Осмотр', cost: 1000, available: true },
-        { id: 2, name: 'Вакцинация', cost: 1500, available: true },
-        { id: 3, name: 'Стоматология', cost: 3000, available: false },
-      ];
-    },
+    // async loadData() {
+    //   // Здесь должны быть запросы к API
+    //   // this.users = await fetchUsers();
+    //   // this.offices = await fetchOffices();
+    //   // this.procedures = await fetchProcedures();
+    //
+    //   // Заглушки данных для демонстрации
+    //   this.users = filterEntity('user')
+    //   // this.users = [
+    //   //   { id: 1, login: 'admin', second_name: 'Иванов', first_name: 'Иван', last_name: 'Иванович', email: 'admin@clinic.ru', role: 'Администратор' },
+    //   //   { id: 2, login: 'doctor1', second_name: 'Петров', first_name: 'Петр', last_name: 'Петрович', email: 'doctor1@clinic.ru', role: 'Врач' },
+    //   // ];
+    //
+    //   this.offices = [
+    //     { id: 1, name: 'Центральный', address: 'ул. Центральная, 1', phone_number: '+79990001111', email: 'central@clinic.ru' },
+    //     { id: 2, name: 'Северный', address: 'ул. Северная, 5', phone_number: '+79990002222', email: 'north@clinic.ru' },
+    //   ];
+    //
+    //   this.procedures = [
+    //     { id: 1, name: 'Осмотр', cost: 1000, available: true },
+    //     { id: 2, name: 'Вакцинация', cost: 1500, available: true },
+    //     { id: 3, name: 'Стоматология', cost: 3000, available: false },
+    //   ];
+    // },
     addUser() {
       console.log('Добавить пользователя');
     },

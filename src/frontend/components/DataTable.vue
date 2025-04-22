@@ -6,6 +6,7 @@
         Добавить
       </button>
     </div>
+
     <div class="table-filters">
       <div v-for="(filter, index) in filters" :key="index" class="filter-item">
         <label :for="`filter-${index}`">{{ filter.label }}</label>
@@ -16,8 +17,13 @@
           :placeholder="filter.placeholder || ''"
         />
       </div>
+
+      <!-- 🔘 Кнопка "Отфильтровать" -->
+      <button @click="loadItems" class="filter-button">
+        Отфильтровать
+      </button>
     </div>
-    
+
     <table>
       <thead>
         <tr>
@@ -46,10 +52,14 @@
   </div>
 </template>
 
+
 <script>
+import {filterEntity} from "@/api/enity.js";
+
 export default {
   props: {
     title: String,
+    systemTitle: String,
     items: Array,
     columns: Array,
     filters: Array,
@@ -65,27 +75,32 @@ export default {
   data() {
     return {
       filterValues: {},
+      localItems: [],
     };
   },
   computed: {
     filteredItems() {
-      return this.items.filter((item) => {
-        return Object.keys(this.filterValues).every((key) => {
-          if (!this.filterValues[key]) return true;
-          return String(item[key])
-            .toLowerCase()
-            .includes(this.filterValues[key].toLowerCase());
-        });
-      });
+      return this.localItems
     },
   },
   methods: {
+    async loadItems() {
+      try {
+        const data = await filterEntity(this.systemTitle, this.filterValues);
+        this.localItems = data;
+      } catch (error) {
+        console.error("Ошибка загрузки данных:", error);
+      }
+    },
     formatValue(value, column) {
       if (column.formatter) {
         return column.formatter(value);
       }
       return value;
     },
+  },
+  created() {
+    this.loadItems(); // загружаем данные при инициализации
   },
 };
 </script>
