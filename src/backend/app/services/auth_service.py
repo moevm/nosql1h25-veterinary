@@ -14,7 +14,7 @@ def login_user(data):
     # Поиск пользователя по логину
     user = get_user_by_login(data['login'])
     if not user or not check_password_hash(user.password_hash, data['password']):
-        raise ValueError("Invalid login or password")
+        raise AttributeError("Invalid login or password")
 
     return user
 

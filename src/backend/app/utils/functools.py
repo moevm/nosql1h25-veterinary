@@ -8,8 +8,10 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except ValueError as e:
+            print(e)
             return jsonify({"error": str(e)}), 400
         except Exception as e:
+            print(e)
             return jsonify({"error": "Internal Server Error: " + str(e)}), 500
     return wrapper
 

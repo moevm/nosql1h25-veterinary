@@ -5,16 +5,19 @@ from app.utils.functools import error_handler
 create_routes = Blueprint("create_routes", __name__)
 
 
-@create_routes.route("/<entity_name>", methods=["GET"])
-@error_handler
-def filter_entities_route(entity_name):
+@create_routes.route("/<entity_name>", methods=["POST"])
+# @error_handler
+def create_entities_route(entity_name):
     data = request.get_json() or {}
+    print('creating')
     results = create_entity(entity_name, data)
-    print(results)
-    serialized = []
-    for result in results:
-        result_map = result.to_dict()
-        result_map.update(result.get_relationships())
-        serialized.append(result_map)
+    # if not isinstance(results, str):
+    #     print(type(results))
+    #     results = results.to_dict()
+    #     serialized = []
+    #     for result in results:
+    #         result_map = result.to_dict()
+    #         result_map.update(result.get_relationships())
+    #         serialized.append(result_map)
 
-    return jsonify(serialized), 200
+    return jsonify(results.to_dict()), 200
