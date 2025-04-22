@@ -5,7 +5,9 @@
     :items="pets"
     :columns="columns"
     :filters="filters"
-    @add="$emit('add')"
+    :showAddButton="true"
+    :addFormConfig="addFormConfig"
+    @add="handleAddPet"
   />
 </template>
 
@@ -31,12 +33,28 @@ export default {
         { field: 'birthdate__start', label: 'Дата рождения (с)', type: 'date' },
         { field: 'birthdate__end', label: 'Дата рождения (по)', type: 'date' },
       ],
+      addFormConfig: {
+        name: { required: true },
+        breed: { required: true },
+        pet_type: { required: true },
+        birthdate: { type: 'date', required: true },
+        gender: { 
+          type: 'select', 
+          options: ['Мужской', 'Женский'],
+          required: true 
+        },
+        photo_url: { type: 'url', required: false }
+      }
     };
   },
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString();
     },
-  },
+    handleAddPet(newPet) {
+      console.log('Добавление нового питомца:', newPet);
+      // Здесь будет логика добавления через API
+    }
+  }
 };
 </script>
