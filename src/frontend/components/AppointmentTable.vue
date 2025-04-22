@@ -1,6 +1,6 @@
 <template>
   <DataTable
-    title="Мои записи"
+    title="Записи"
     system-title="appointment"
     :items="appointments"
     :columns="columns"
