@@ -4,7 +4,6 @@
     <div v-if="doctor">
       <p>Имя: {{ doctor.name }}</p>
       <p>Специализация: {{ doctor.specialization }}</p>
-      <!-- Добавь другие поля по желанию -->
     </div>
     <div v-else>
       Загрузка данных доктора...
@@ -16,11 +15,12 @@
 import { Doctor } from '@/models/Doctor';
 import { getDoctorById } from '@/api/entity';
 import HeaderDoctor from './HeaderDoctor.vue';
+import DoctorTables from './DoctorTables.vue';
 
 export default {
   name: 'DoctorPage',
   components: {
-    Header: HeaderDoctor
+    Header: HeaderDoctor, DoctorTables
   },
   data() {
     return {
