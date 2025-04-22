@@ -1,10 +1,10 @@
 <template>
   <header class="header">
     <nav class="nav">
-      <button @click="$router.push('/admin/users')">Пользователи</button>
-      <button @click="$router.push('/admin/reports')">Отчёты</button>
-      <button @click="$router.push('/admin/offices')">Филиалы</button>
-      <button @click="$router.push('/admin/services')">Услуги</button>
+      <button @click="$router.push('/admin/User')">Пользователи</button>
+      <button @click="$router.push('/admin/Appointment')">Отчёты</button>
+      <button @click="$router.push('/admin/Office')">Филиалы</button>
+      <button @click="$router.push('/admin/Procedure')">Услуги</button>
       
 
       <div class="dropdown" @click="toggleDropdown">
