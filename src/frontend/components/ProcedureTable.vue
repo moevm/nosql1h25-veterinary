@@ -5,9 +5,9 @@
     :items="items"
     :columns="columns"
     :filters="filters"
-    @add="$emit('addProcedure')"
-    @edit="$emit('editProcedure', $event)"
-    @delete="$emit('deleteProcedure', $event)"
+    :showAddButton="true"
+    :addFormConfig="addFormConfig"
+    @add="handleAddProcedure"
   />
 </template>
 
@@ -30,7 +30,26 @@ export default {
         { field: 'cost__end', label: 'Стоимость (до)', type: 'number' },
         { field: 'description', label: 'Описание' },
       ],
+      addFormConfig: {
+        name: { required: true },
+        cost: { type: 'number', required: true },
+        description: { required: true },
+        available: { 
+          type: 'select', 
+          options: [
+            { value: true, label: 'Доступна' },
+            { value: false, label: 'Недоступна' }
+          ],
+          required: true 
+        }
+      }
     };
   },
+  methods: {
+    handleAddProcedure(newProcedure) {
+      console.log('Добавление новой услуги:', newProcedure);
+     
+    }
+  }
 };
 </script>
