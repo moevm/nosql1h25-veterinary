@@ -1,11 +1,13 @@
 <template>
   <DataTable
-    title="Записи"
+    title="Мои записи"
     system-title="appointment"
     :items="appointments"
     :columns="columns"
     :filters="filters"
-    @add="$emit('add')"
+    :showAddButton="true"
+    :addFormConfig="addFormConfig"
+    @add="handleAddAppointment"
   />
 </template>
 
@@ -35,6 +37,19 @@ export default {
         { field: 'diagnosis', label: 'Диагноз' },
         { field: 'recommend', label: 'Рекомендации' },
       ],
+      addFormConfig: {
+        date: { type: 'datetime-local', required: true },
+        reason: { required: true },
+        comment: { required: false },
+        status: { 
+          type: 'select', 
+          options: Object.keys(AppointmentStatus).map(key => ({
+            value: key,
+            label: AppointmentStatus[key]
+          })),
+          required: true 
+        }
+      }
     };
   },
   methods: {
@@ -44,6 +59,10 @@ export default {
     formatDateTime(date) {
       return new Date(date).toLocaleString();
     },
-  },
+    handleAddAppointment(newAppointment) {
+      console.log('Добавление новой записи:', newAppointment);
+
+    }
+  }
 };
 </script>
