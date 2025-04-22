@@ -5,7 +5,7 @@
       <button @click="$router.push('/admin/reports')">Отчёты</button>
       <button @click="$router.push('/admin/offices')">Филиалы</button>
       <button @click="$router.push('/admin/services')">Услуги</button>
-      <button @click="$router.push('/admin/statistics')">Статистика</button>
+      
 
       <div class="dropdown" @click="toggleDropdown">
         <button class="dropdown-button">☰</button>
