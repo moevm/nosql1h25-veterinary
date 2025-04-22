@@ -7,6 +7,7 @@
       :filters="userFilters"
       @add="addUser"
       @edit="editUser"
+      
       @delete="deleteUser"
     />
     
