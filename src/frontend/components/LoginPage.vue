@@ -26,15 +26,23 @@ export default {
   },
   methods: {
     async login() {
-      this.error = null
-      try {
-        const user = await loginUser(this.form)
-        console.log('Успешный вход:', user)
-        this.$router.push('/')
-      } catch (err) {
-        this.error = err.response?.data?.message || 'Ошибка авторизации'
-      }
+  this.error = null
+  try {
+    const user = await loginUser(this.form)
+    console.log('Успешный вход:', user)
+
+    // Перенаправление по роли
+    if (user.role === 'admin') {
+      this.$router.push('/admin')
+    } else if (user.role === 'doctor') {
+      this.$router.push('/doctor')
+    } else {
+      this.$router.push('/user')
     }
+  } catch (err) {
+    this.error = err.response?.data?.message || 'Ошибка авторизации'
+  }
+}
   }
 }
 </script>
