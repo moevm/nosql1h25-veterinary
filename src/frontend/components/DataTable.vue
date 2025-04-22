@@ -13,13 +13,31 @@
       <div v-for="(filter, index) in filters" :key="index" class="filter-item">
         <label :for="`filter-${index}`">{{ filter.label }}</label>
         <input
+          v-if="!filter.type || filter.type === 'text'"
           :id="`filter-${index}`"
-          :type="filter.type || 'text'"
+          type="text"
           v-model="filterValues[filter.field]"
           :placeholder="filter.placeholder || ''"
         />
+        <select
+          v-else-if="filter.type === 'select'"
+          :id="`filter-${index}`"
+          v-model="filterValues[filter.field]"
+        >
+          <option value="">Все</option>
+          <option v-for="option in filter.options" :key="option" :value="option">
+            {{ option }}
+          </option>
+        </select>
+        <input
+          v-else
+          :id="`filter-${index}`"
+          :type="filter.type"
+          v-model="filterValues[filter.field]"
+        />
       </div>
-      <button @click="loadItems" class="filter-button">Отфильтровать</button>
+      <button @click="loadItems" class="filter-button">Применить</button>
+      <button @click="resetFilters" class="filter-button">Сбросить</button>
     </div>
 
     <!-- Таблица -->
@@ -35,17 +53,23 @@
           <td v-for="column in columns" :key="column.field">
             {{ formatValue(item[column.field], column) }}
           </td>
+          <td v-if="showActions" class="actions">
+            <button @click="editItem(item)" class="edit-button">✏️</button>
+            <button @click="deleteItem(item)" class="delete-button">🗑️</button>
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Модалка добавления -->
+    <!-- Модальное окно добавления -->
     <div v-if="showAddModal" class="modal-overlay">
       <div class="modal">
         <h3>Добавить {{ title }}</h3>
         <form @submit.prevent="handleAdd">
           <div v-for="column in addFormColumns" :key="column.field" class="form-group">
-            <label :for="`add-${column.field}`">{{ column.label }}</label>
+            <label :for="`add-${column.field}`">{{ column.label || column.field }}</label>
+            
+            <!-- Текстовое поле -->
             <input
               v-if="!column.type || column.type === 'text'"
               :id="`add-${column.field}`"
@@ -53,16 +77,74 @@
               :type="column.type || 'text'"
               :required="column.required !== false"
             />
+            
+            <!-- Выпадающий список -->
             <select
               v-else-if="column.type === 'select'"
               :id="`add-${column.field}`"
               v-model="newItem[column.field]"
               :required="column.required !== false"
             >
-              <option v-for="option in column.options" :key="option.value" :value="option.value">
-                {{ option.label }}
+              <option v-for="option in column.options" 
+                      :key="option.value || option" 
+                      :value="option.value || option">
+                {{ option.label || option }}
               </option>
             </select>
+            
+            <!-- Числовое поле -->
+            <input
+              v-else-if="column.type === 'number'"
+              :id="`add-${column.field}`"
+              v-model.number="newItem[column.field]"
+              type="number"
+              :required="column.required !== false"
+            />
+            
+            <!-- Дата -->
+            <input
+              v-else-if="column.type === 'date'"
+              :id="`add-${column.field}`"
+              v-model="newItem[column.field]"
+              type="date"
+              :required="column.required !== false"
+            />
+            
+            <!-- Дата и время -->
+            <input
+              v-else-if="column.type === 'datetime-local'"
+              :id="`add-${column.field}`"
+              v-model="newItem[column.field]"
+              type="datetime-local"
+              :required="column.required !== false"
+            />
+            
+            <!-- Пароль -->
+            <input
+              v-else-if="column.type === 'password'"
+              :id="`add-${column.field}`"
+              v-model="newItem[column.field]"
+              type="password"
+              :required="column.required !== false"
+            />
+            
+            <!-- Email -->
+            <input
+              v-else-if="column.type === 'email'"
+              :id="`add-${column.field}`"
+              v-model="newItem[column.field]"
+              type="email"
+              :required="column.required !== false"
+            />
+            
+            <!-- URL -->
+            <input
+              v-else-if="column.type === 'url'"
+              :id="`add-${column.field}`"
+              v-model="newItem[column.field]"
+              type="url"
+              :required="column.required !== false"
+            />
           </div>
 
           <div class="modal-actions">
@@ -92,7 +174,7 @@ export default {
   data() {
     return {
       filterValues: {},
-      localItems: [],
+      localItems: this.items || [],
       showAddModal: false,
       newItem: {}
     };
@@ -103,7 +185,8 @@ export default {
     },
     addFormColumns() {
       return this.columns.map(col => ({
-        ...col,
+        field: col.field,
+        label: col.label || col.field,
         type: this.addFormConfig[col.field]?.type || col.type,
         options: this.addFormConfig[col.field]?.options,
         required: this.addFormConfig[col.field]?.required !== false
@@ -119,6 +202,10 @@ export default {
         console.error("Ошибка загрузки данных:", error);
       }
     },
+    resetFilters() {
+      this.filterValues = {};
+      this.loadItems();
+    },
     async handleAdd() {
       try {
         await addEntity(this.systemTitle, this.newItem);
@@ -130,8 +217,22 @@ export default {
         console.error("Ошибка добавления:", error);
       }
     },
+    editItem(item) {
+      this.$emit('edit', item);
+    },
+    deleteItem(item) {
+      this.$emit('delete', item);
+    },
     formatValue(value, column) {
-      return column.formatter ? column.formatter(value) : value;
+      if (column.formatter) {
+        return column.formatter(value);
+      }
+      return value;
+    }
+  },
+  watch: {
+    items(newVal) {
+      this.localItems = newVal;
     }
   },
   created() {
@@ -141,7 +242,6 @@ export default {
 </script>
 
 <style scoped>
-/* 🎨 Используем стили из обоих шаблонов — смержены */
 
 .data-table {
   margin: 20px;
@@ -175,7 +275,7 @@ export default {
   font-weight: 500;
 }
 
-.filter-item input {
+.filter-item input, .filter-item select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -226,6 +326,11 @@ button {
 
 .delete-button {
   background-color: #f44336;
+  color: white;
+}
+
+.filter-button {
+  background-color: #ff9800;
   color: white;
 }
 
