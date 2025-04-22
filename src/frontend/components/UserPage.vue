@@ -12,6 +12,6 @@ import UserTables from './UserTables.vue';
 
 export default {
 name: 'UserPage',
-  components: { HeaderUser, UserTables }
+  components: { Header: HeaderUser, UserTables }
 }
 </script>
