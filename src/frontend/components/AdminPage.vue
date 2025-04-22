@@ -7,10 +7,10 @@
 
 
 <script>
-import Header from './Header.vue';
+import HeaderAdmin from './HeaderAdmin.vue';
 import AdminTables from './AdminTables.vue';
 
 export default {
-  components: { Header, AdminTables }
+  components: { Header: HeaderAdmin, AdminTables }
 }
 </script>
