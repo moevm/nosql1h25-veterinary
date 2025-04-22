@@ -8,7 +8,11 @@ user_routes = Blueprint('user_routes', __name__)
 @error_handler
 def login():
     data = request.get_json()
-    user = login_user(data)
+    try:
+        user = login_user(data)
+    except:
+        return jsonify({"message": "неверный логин или пароль"}), 401
+
     return jsonify({"message": "Login successful", "role": user.role}), 200
 
 @user_routes.route('/register', methods=['POST'])
