@@ -30,7 +30,7 @@ def register_user(data):
     if get_user_by_email(data['email']):
         raise ValueError("Email already exists")
 
-    if data['role'] not in ['user', 'admin', 'client']:
+    if data['role'] not in ['doctor', 'admin', 'client']:
         raise ValueError("Invalid role")
 
     hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256', salt_length=16)
