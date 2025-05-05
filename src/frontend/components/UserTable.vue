@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return new Date(date).toLocaleDateString();
+      return new Date(date).toISOString().split('T')[0];
     },
   },
 };
