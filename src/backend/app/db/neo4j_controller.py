@@ -1,5 +1,6 @@
 from neomodel import db
 from datetime import datetime
+from app.models.Appointment import Appointment, AppointmentStatus
 
 
 class Neo4jRepository:
@@ -25,6 +26,22 @@ class Neo4jRepository:
                     # Можно выбросить исключение или присвоить значение по умолчанию
                     # raise ValueError(f"Invalid date format for '{key}': {value}")
                     kwargs[key] = None  # Или какое-то значение по умолчанию
+            # elif key == 'date':
+            #     try:
+            #         # Преобразуем ISO-строку вида "2025-05-20T14:30" в datetime
+            #         kwargs[key] = datetime.strptime(kwargs[key], "%Y-%m-%dT%H:%M")
+            #     except ValueError:
+            #         # Если парсинг не удался — можно логировать или выбросить исключение
+            #         raise ValueError(f"Invalid datetime format for field '{key}': {kwargs[key]}")
+
+            # if isinstance(self.model_cls, Appointment) and 'status' in kwargs:
+            #     status_value = kwargs['status']
+            #     valid_statuses = {s.value: s for s in AppointmentStatus}
+            #     if status_value in valid_statuses:
+            #         kwargs['status'] = valid_statuses[status_value]
+            #     else:
+            #         raise ValueError(f"Invalid status value for Appointment: {status_value}")
+
         instance = self.model_cls(**kwargs)
         instance.save()
         return instance
@@ -76,6 +93,10 @@ class Neo4jRepository:
         params = {}
 
         for key, value in kwargs.items():
+            print(f"key: {key}, value: {value}")
+            # if key.startswith('date'):
+            #     cypher_where.append(f"n.date = datetime(${value})")
+            #     params[key] = value  # строка в ISO формате, например: "2025-05-20T14:30:00"
             if key.endswith('__start'):
                 field = key[:-7]
                 cypher_where.append(f"n.{field} >= ${key}")

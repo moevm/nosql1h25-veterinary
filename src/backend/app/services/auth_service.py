@@ -1,7 +1,8 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models.User import User
 from app.services.user_service import get_user_by_email, get_user_by_login
-
+from app.services.entity_service import create_entity
+from datetime import datetime
 
 
 def login_user(data):
@@ -20,7 +21,7 @@ def login_user(data):
 
 def register_user(data):
     """Регистрирует нового пользователя."""
-    required_fields = ['second_name', 'first_name', 'last_name', 'login', 'password', 'email', 'role']
+    required_fields = ['second_name', 'first_name', 'last_name', 'login', 'password', 'email', 'role', 'birth_date']
     for field in required_fields:
         if field not in data:
             raise ValueError(f"Field '{field}' is required")
@@ -42,7 +43,8 @@ def register_user(data):
         login=data['login'],
         password_hash=hashed_password,
         email=data['email'],
-        role=data['role']
+        role=data['role'],
+        birth_date=datetime.strptime(data['birth_date'], "%Y-%m-%d").date()
     )
     user.save()
     return user

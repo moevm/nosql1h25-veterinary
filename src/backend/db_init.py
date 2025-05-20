@@ -12,7 +12,8 @@ client_data = {
     "login": "client_user",
     "password": "user123",
     "email": f"user@example.com",
-    "role": "client"
+    "role": "client",
+    "birth_date": "1970-01-02"
 }
 
 # Данные для пользователя с ролью 'admin'
@@ -23,7 +24,8 @@ admin_data = {
     "login": "admin_user",
     "password": "admin123",
     "email": f"admin@example.com",
-    "role": "admin"
+    "role": "admin",
+    "birth_date": "1989-12-11"
 }
 
 # Данные для пользователя с ролью 'doctor'
@@ -34,9 +36,9 @@ doctor_data = {
     "login": "doctor_user",
     "password": "doctor123",
     "email": f"doctor@example.com",
-    "role": "doctor"
+    "role": "doctor",
+    "birth_date": "2000-05-05"
 }
-
 
 # Регистрация пользователя с ролью 'client'
 print("\nРегистрация пользователя с ролью 'client'...")
@@ -47,7 +49,6 @@ try:
 except Exception as e:
     print(f"Ошибка при регистрации клиента: {e}")
 
-
 # Регистрация пользователя с ролью 'admin'
 print("\nРегистрация пользователя с ролью 'admin'...")
 try:
@@ -56,8 +57,7 @@ try:
     print(f"Ответ: {admin_response.text}")
 except Exception as e:
     print(f"Ошибка при регистрации администратора: {e}")
-    
-    
+
 # Регистрация пользователя с ролью 'doctor'
 print("\nРегистрация пользователя с ролью 'doctor'...")
 try:

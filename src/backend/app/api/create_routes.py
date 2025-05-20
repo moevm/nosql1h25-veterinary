@@ -9,7 +9,7 @@ create_routes = Blueprint("create_routes", __name__)
 # @error_handler
 def create_entities_route(entity_name):
     data = request.get_json() or {}
-    print('creating')
+    print('creating: ', data)
     results = create_entity(entity_name, data)
     # if not isinstance(results, str):
     #     print(type(results))

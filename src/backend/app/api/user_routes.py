@@ -5,7 +5,7 @@ from app.utils.functools import error_handler
 user_routes = Blueprint('user_routes', __name__)
 
 @user_routes.route('/login', methods=['POST'])
-@error_handler
+# @error_handler
 def login():
     data = request.get_json()
     try:

@@ -12,10 +12,9 @@ class AppointmentStatus(str, Enum):
     COMPLETED = 'проведен'
 
 class Appointment(BaseModel):
-    date = DateTimeProperty()
-    _status = StringProperty(
-        choices=[(status.value, status.name) for status in AppointmentStatus],
-        default=AppointmentStatus.PENDING.value
+    status = StringProperty(
+        choices=[('ожидает подтверждения', 'ожидает подтверждения'), ('подтвержден', 'подтвержден'), ('отменен', 'отменен'), ('проведен', 'проведен')],
+        default='ожидает подтверждения'
     )
     reason = StringProperty(max_length=480)
     comment = StringProperty(max_length=960)
@@ -30,13 +29,13 @@ class Appointment(BaseModel):
     procedure = RelationshipTo('app.models.Procedure', 'INCLUDES')         # В приёме участвует процедура
     day = RelationshipTo('app.models.Day', 'IS_SCHEDULED_ON')              # Приём назначен на день
 
-    @property
-    def status(self):
-        return self._status
-
-    @status.setter
-    def status(self, value):
-        """Сеттер для статуса, проверяет, что статус является одним из перечисленных в AppointmentStatus"""
-        if value not in [status.value for status in AppointmentStatus]:
-            raise ValueError(f"Invalid status: {value}")
-        self._status = value
+    # @property
+    # def status(self):
+    #     return self._status
+    #
+    # @status.setter
+    # def status(self, value):
+    #     """Сеттер для статуса, проверяет, что статус является одним из перечисленных в AppointmentStatus"""
+    #     if value not in [status.value for status in AppointmentStatus]:
+    #         raise ValueError(f"Invalid status: {value}")
+    #     self._status = value
