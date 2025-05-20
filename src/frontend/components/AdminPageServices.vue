@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div class="table-header">
-      <h2>Услуги</h2>
+      <h2></h2>
       <button class="add-button" @click="showAddServiceModal = true">Добавить</button>
     </div>
     <ProcedureTable :items="services" :show-add-button="false" />
@@ -79,14 +79,14 @@ export default {
 }
 .add-button {
   padding: 0.5rem 1rem;
-  background-color: #ffc107;
-  color: black;
+  background-color: #28a745;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 .add-button:hover {
-  background-color: #e0a800;
+  background-color: #218838;
 }
 .modal-overlay {
   position: fixed;

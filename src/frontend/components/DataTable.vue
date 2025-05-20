@@ -12,7 +12,26 @@
     <div class="table-filters">
       <div v-for="(filter, index) in filters" :key="index" class="filter-item">
         <label :for="`filter-${index}`">{{ filter.label }}</label>
+
+        <!-- Если тип select — рендерим выпадающий список -->
+        <select
+          v-if="filter.type === 'select'"
+          :id="`filter-${index}`"
+          v-model="filterValues[filter.field]"
+        >
+          <option value="">— Все —</option>
+          <option
+            v-for="option in filter.options"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+
+        <!-- Если не select — рендерим обычный input -->
         <input
+          v-else
           :id="`filter-${index}`"
           :type="filter.type || 'text'"
           v-model="filterValues[filter.field]"
@@ -22,12 +41,12 @@
       <button @click="loadItems" class="filter-button">Отфильтровать</button>
     </div>
 
+
     <!-- Таблица -->
     <table>
       <thead>
         <tr>
           <th v-for="column in columns" :key="column.field">{{ column.label }}</th>
-          <th v-if="showActions">Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -86,8 +105,9 @@ export default {
     columns: Array,
     filters: Array,
     showAddButton: { type: Boolean, default: false },
-    showActions: { type: Boolean, default: true },
     addFormConfig: { type: Object, default: () => ({}) },
+    addFormFields: Array,
+    onAdd: Function
   },
   data() {
     return {
@@ -121,11 +141,16 @@ export default {
     },
     async handleAdd() {
       try {
-        await addEntity(this.systemTitle, this.newItem);
+        if (this.onAdd) {
+          await this.onAdd(this.newItem);
+        } else {
+          await addEntity(this.systemTitle, this.newItem);
+        }
+
         this.showAddModal = false;
         this.newItem = {};
-        await this.loadItems();
         this.$emit('added');
+        await this.loadItems();
       } catch (error) {
         console.error("Ошибка добавления:", error);
       }

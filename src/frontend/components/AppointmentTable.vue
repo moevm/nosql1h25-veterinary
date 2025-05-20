@@ -5,6 +5,7 @@
     :items="appointments"
     :columns="columns"
     :filters="filters"
+    :add-form-fields="addFormFields"
     @add="$emit('add')"
   />
 </template>
@@ -27,9 +28,24 @@ export default {
         { field: 'recommend', label: 'Рекомендации' },
       ],
       filters: [
-        { field: 'date__start', label: 'Дата (от)', type: 'date' },
-        { field: 'date__end', label: 'Дата (до)', type: 'date' },
-        { field: 'status', label: 'Статус' },
+        { field: 'status', label: 'Статус', type: 'select', options: [
+        { label: 'Ожидает подтверждения', value: 'ожидает подтверждения' },
+        { label: 'Подтвержден', value: 'подтвержден' },
+        { label: 'Отменен', value: 'отменен' },
+        { label: 'Проведен', value: 'проведен' },
+        ] },
+        { field: 'reason', label: 'Причина' },
+        { field: 'comment', label: 'Комментарий' },
+        { field: 'diagnosis', label: 'Диагноз' },
+        { field: 'recommend', label: 'Рекомендации' },
+      ],
+      addFormFields: [
+        { field: 'status', label: 'Статус', type: 'select', options: [
+        { label: 'Ожидает подтверждения', value: 'PENDING' },
+        { label: 'Подтвержден', value: 'CONFIRMED' },
+        { label: 'Отменен', value: 'CANCELED' },
+        { label: 'Проведен', value: 'COMPLETED' },
+        ] },
         { field: 'reason', label: 'Причина' },
         { field: 'comment', label: 'Комментарий' },
         { field: 'diagnosis', label: 'Диагноз' },
@@ -43,7 +59,7 @@ export default {
     },
     formatDateTime(date) {
       return new Date(date).toLocaleString();
-    },
+    }
   },
 };
 </script>

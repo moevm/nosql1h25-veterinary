@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div class="table-header">
-      <h2>Пользователи</h2>
+      <h2></h2>
       <button class="add-button" @click="showAddUserModal = true">Добавить</button>
     </div>
     <UserTable :items="users" :show-add-button="false" />
@@ -28,7 +28,11 @@
             <input id="email" v-model="newUser.email" type="email" required />
 
             <label for="role">Роль</label>
-            <input id="role" v-model="newUser.role" required />
+            <select id="role" v-model="newUser.role" required>
+              <option value="admin">admin</option>
+              <option value="client">client</option>
+              <option value="doctor">doctor</option>
+            </select>
 
             <label for="birth_date">Дата рождения</label>
             <input id="birth_date" v-model="newUser.birth_date" type="date" required />

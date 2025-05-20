@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div class="table-header">
-      <h2>Мои питомцы</h2>
+      <h2></h2>
       <button class="add-button" @click="showAddPetModal = true">Добавить</button>
     </div>
     <PetTable :pets="pets" :show-add-button="false" />

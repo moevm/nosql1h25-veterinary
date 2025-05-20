@@ -30,6 +30,11 @@ export default {
         { field: 'cost__end', label: 'Стоимость (до)', type: 'number' },
         { field: 'description', label: 'Описание' },
       ],
+      addFormFields: [
+        { field: 'name', label: 'Название' },
+        { field: 'cost', label: 'Стоимость', type: 'number' },
+        { field: 'description', label: 'Описание' },
+      ]
     };
   },
 };
