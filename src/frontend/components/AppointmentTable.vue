@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       columns: [
-        { field: 'date', label: 'Дата и время', formatter: this.formatDateTime },
+        // { field: 'date', label: 'Дата и время', formatter: this.formatDateTime },
         { field: 'status', label: 'Статус', formatter: this.formatStatus },
         { field: 'reason', label: 'Причина' },
         { field: 'comment', label: 'Комментарий' },
